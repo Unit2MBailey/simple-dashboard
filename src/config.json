@@ -1,31 +1,52 @@
 {
     "panels": [{
-        "title": "Infrastructure",
+        "title": "Game Mainline",
         "sources": [{
             "type": "jenkins",
+			"host": "http://build.ws.u2g:9090",
+			"jobFolder": "Game",
             "job": "Game-Publish",
             "branch": "mainline"
         }, {
-            "type": "rss-aws",
-            "title": "CloudFront",
-            "id": "cloudfront"
+            "type": "jenkins",
+			"host": "http://build.ws.u2g:9090",
+			"jobFolder": "Game",
+            "job": "Game-Automated-Tests",
+            "branch": "mainline"
         }, {
-            "type": "rss-aws",
-            "title": "EC2 US East",
-            "id": "ec2-us-east-1"
+            "type": "jenkins",
+			"host": "http://build.ws.u2g:9090",
+			"jobFolder": "Game",
+            "job": "Game-NonUnity",
+            "branch": "mainline"
         }, {
-            "type": "dropwizard",
-            "title": "Production - Healthcheck",
-            "adminPath": "http://localhost:9090/admin"
+            "type": "jenkins",
+			"host": "http://build.ws.u2g:9090",
+			"jobFolder": "Game",
+            "job": "Game-Shipping",
+            "branch": "mainline"
         }]
     }, {
-        "title": "Branches",
+        "title": "Game Branches",
         "sources": [{
-            "type": "github-branches",
-            "owner": "Lugribossk",
-            "repo": "simple-dashboard",
-            "token": "",
-            "showStatus": true
+            "type": "jenkins",
+			"host": "http://build.ws.u2g:9090",
+			"jobFolder": "Game",
+            "job": "Game-Publish",
+            "branch": "milestone4"
+        }, {
+            "type": "jenkins",
+			"host": "http://build.ws.u2g:9090",
+			"jobFolder": "Game",
+            "job": "Game-Publish",
+            "branch": "milestone5"
+        }]
+    }, {
+        "title": "Web Systems",
+        "sources": [{
+            "type": "jenkins",
+			"host": "http://build.ws.u2g:9090",
+            "job": "docker-deploy-agent-test"
         }]
     }]
 }

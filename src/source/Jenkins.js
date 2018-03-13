@@ -5,59 +5,62 @@ import Source from "./Source";
 export default class Jenkins extends Source {
     constructor(data) {
         super(data);
+        this.host = data.host;
         this.job = data.job;
         this.branch = data.branch;
-        this.jobLink = "http://build.ws.u2g:9090/job/Game/job/" + this.job + "/job/" + this.branch;
+        this.jobFolder = data.jobFolder;
+		this.jobLink = this.host + "/job/";
+		if (this.jobFolder)
+			this.jobLink += this.jobFolder + "/job/"
+		this.jobLink += this.job;
+		if (this.branch)
+			this.jobLink += "/job/" + this.branch
     }
 
-    fetchData() {
-		var url = this.jobLink + "/lastBuild/api/json";
-		alert(url);
+    fetchData(urlEnd) {
+		var url = this.jobLink + urlEnd;
+		console.log(url);
         return request.get(url)
             .promise()
             .catch(e => e);
     }
+	
+	getLastFailedBuildNumber() {
+		return this.fetchData("/lastFailedBuild/buildNumber").then(response => {
+			console.log(response.text);
+			return (response.ok) ? Number(response.text) : 0;
+		})
+	}
+	
+	getLastSuccessfulBuildNumber() {
+		return this.fetchData("/lastSuccessfulBuild/buildNumber").then(response => {
+			console.log(response.text);
+			return (response.ok) ? Number(response.text) : 0;
+		})
+	}
+	
+	getLastBuildInfo() {
+		return fetchData("/lastBuild/api/json")
+	}
 
     getStatus() {
-        return this.fetchData().then(response => {
+        return this.getLastFailedBuildNumber().then(lastFailedBuildNumber => {
+			this.lastFailedBuildNumber = lastFailedBuildNumber;
+		}).then(response => {
+			return this.getLastSuccessfulBuildNumber().then(lastSuccessfulBuildNumber => {
+				this.lastSuccessfulBuildNumber = lastSuccessfulBuildNumber;
+			})
+		}).then(response => {
             var status = "success";
             var messages = [];
+
+			if ((this.lastSuccessfulBuildNumber == 0) || (this.lastFailedBuildNumber > this.lastSuccessfulBuildNumber))
+			{
+				status = "danger";
+			}
 			
-			alert('Got response from Jenkins: ' + JSON.stringify(response));
-
-            if (!response || !response.body || !response.body.result) {
-                status = "danger";
-                messages.push({
-                    name: "No response from Status.io API"
-                });
-            } else {
-                var worstStatusCode = 0;
-                _.forEach(response.body.result.status, s => {
-                    _.forEach(s.containers, c => {
-                        if (c.status_code > 100) {
-                            messages.push({
-                                name: s.name,
-                                detailName: c.name,
-                                message: c.status
-                            });
-
-                            if (c.status_code > worstStatusCode) {
-                                worstStatusCode = c.status_code;
-                            }
-                        }
-                    });
-                });
-
-                // http://kb.status.io/developers/status-codes
-                if (worstStatusCode >= 500) {
-                    status = "danger";
-                } else if (worstStatusCode >= 300) {
-                    status = "warning";
-                }
-            }
-
             return {
-                title: this.job + "/" + this.branch,
+                title: this.job + " (" + this.branch + ")",
                 link: this.jobLink,
                 status: status,
                 messages: messages
