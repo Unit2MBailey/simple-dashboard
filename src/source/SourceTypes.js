@@ -5,6 +5,7 @@ import Message from "./Message";
 import RssAws from "./RssAws";
 import StatusCode from "./StatusCode";
 import StatusIo from "./StatusIo";
+import Jenkins from "./Jenkins";
 import DockerCloudService from "./DockerCloudService";
 import VstsBranches from "./VstsBranches";
 import VstsBuild from "./VstsBuild";
@@ -19,6 +20,7 @@ export default [
     RssAws,
     StatusCode,
     StatusIo,
+    Jenkins,
     VstsBranches,
     VstsBuild
 ];

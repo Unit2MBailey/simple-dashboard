@@ -2,10 +2,9 @@
     "panels": [{
         "title": "Infrastructure",
         "sources": [{
-            "type": "statusio",
-            "title": "Tutum",
-            "link": "http://status.tutum.co",
-            "id": "536beeeafd254d60080002ae"
+            "type": "jenkins",
+            "job": "Game-Publish",
+            "branch": "mainline"
         }, {
             "type": "rss-aws",
             "title": "CloudFront",
