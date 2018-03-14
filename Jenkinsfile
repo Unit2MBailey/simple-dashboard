@@ -31,9 +31,6 @@ pipeline {
         success {
             echo 'I succeeeded!'
 
-            script{
-
-            }
 
         }
         unstable {
