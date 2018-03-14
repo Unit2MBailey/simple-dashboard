@@ -1,4 +1,4 @@
-library('websystems-pipeline-library') _
+@Library('websystems-pipeline-library') _
 
 pipeline {
     agent none
