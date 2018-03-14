@@ -16,7 +16,7 @@ pipeline {
             steps {
                 buildAndPushDocker(
                     image : 'unit2games/projectzero/simple_dashboard',
-                    imageTags : getTagImages("${env:BUILD_ID}", "${env.BRANCH_NAME}"),
+                    imageTags : ["${env:BUILD_ID}", "latest"],
                     host : 'build.ws.u2g:10.10.10.50'
                 )
             }
