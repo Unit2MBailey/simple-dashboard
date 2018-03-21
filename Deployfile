@@ -1,0 +1,46 @@
+@Library('websystems-pipeline-library') _
+
+pipeline {
+
+    agent none
+
+     parameters {
+        string(defaultValue: 'latest', description:
+            'the docker tag to inject into the helm configuration', name: 'DOCKER_BUILD_ID')
+    }
+
+    environment {
+        K8STOKEN = credentials('helm-k8s-credentials')
+    }
+    options {
+        timeout(time: 1, unit: 'HOURS')
+        buildDiscarder(logRotator(numToKeepStr: '50'))
+    }
+
+
+    stages {
+        stage('Publish to K8s'){
+            agent {
+                docker {
+                    image 'build.ws.u2g:5000/unit2games/helm-agent:latest'
+                    registryUrl 'http://build.ws.u2g:5000/'
+                    args '-u root'
+                    alwaysPull true
+                }
+            }
+
+            steps {
+                pushToHelm(
+                    dockerTag:"${params.DOCKER_BUILD_ID}",
+                    k8sToken: "${env.K8STOKEN}",
+                    helmReleaseName: 'simple-dashboard',
+                    helmChart: 'unit2games/simple-dashboard',
+                    helmVersion: '0.0.1',
+                    namespace: 'dashboard'
+                )
+            }
+        }
+
+
+    }
+}
