@@ -1,6 +1,6 @@
 {
     "panels": [{
-        "title": "Game Mainline",
+        "title": "Mainline",
         "sources": [{
             "type": "jenkins",
 			"host": "http://build.ws.u2g:9090",
@@ -27,26 +27,52 @@
             "branch": "mainline"
         }]
     }, {
-        "title": "Game Branches",
+        "title": "MS5",
         "sources": [{
             "type": "jenkins",
 			"host": "http://build.ws.u2g:9090",
 			"jobFolder": "Game",
             "job": "Game-Publish",
-            "branch": "milestone4"
+            "branch": "milestone5"
+        }, {
+            "type": "jenkins",
+			"host": "http://build.ws.u2g:9090",
+			"jobFolder": "Game",
+            "job": "Game-Automated-Tests",
+            "branch": "milestone5"
+        }, {
+            "type": "jenkins",
+			"host": "http://build.ws.u2g:9090",
+			"jobFolder": "Game",
+            "job": "Game-NonUnity",
+            "branch": "milestone5"
+        }, {
+            "type": "jenkins",
+			"host": "http://build.ws.u2g:9090",
+			"jobFolder": "Game",
+            "job": "Game-Shipping",
+            "branch": "milestone5"
+        }]
+    }, {
+        "title": "Streams",
+        "sources": [{
+            "type": "jenkins",
+			"host": "http://build.ws.u2g:9090",
+			"jobFolder": "Game",
+            "job": "Game-Publish",
+            "branch": "mainline"
         }, {
             "type": "jenkins",
 			"host": "http://build.ws.u2g:9090",
 			"jobFolder": "Game",
             "job": "Game-Publish",
             "branch": "milestone5"
-        }]
-    }, {
-        "title": "Web Systems",
-        "sources": [{
+        }, {
             "type": "jenkins",
 			"host": "http://build.ws.u2g:9090",
-            "job": "docker-deploy-agent-test"
+			"jobFolder": "Game",
+            "job": "Game-Publish",
+            "branch": "milestone4"
         }]
     }]
 }
