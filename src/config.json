@@ -33,25 +33,25 @@
 			"host": "http://build.ws.u2g:9090",
 			"jobFolder": "Game",
             "job": "Game-Publish",
-            "branch": "milestone5"
+            "branch": "milestone6"
         }, {
             "type": "jenkins",
 			"host": "http://build.ws.u2g:9090",
 			"jobFolder": "Game",
             "job": "Game-Automated-Tests",
-            "branch": "milestone5"
+            "branch": "milestone6"
         }, {
             "type": "jenkins",
 			"host": "http://build.ws.u2g:9090",
 			"jobFolder": "Game",
             "job": "Game-NonUnity",
-            "branch": "milestone5"
+            "branch": "milestone6"
         }, {
             "type": "jenkins",
 			"host": "http://build.ws.u2g:9090",
 			"jobFolder": "Game",
             "job": "Game-Shipping",
-            "branch": "milestone5"
+            "branch": "milestone6"
         }]
     }, {
         "title": "Streams",
@@ -66,13 +66,13 @@
 			"host": "http://build.ws.u2g:9090",
 			"jobFolder": "Game",
             "job": "Game-Publish",
-            "branch": "milestone5"
+            "branch": "milestone6"
         }, {
             "type": "jenkins",
 			"host": "http://build.ws.u2g:9090",
 			"jobFolder": "Game",
             "job": "Game-Publish",
-            "branch": "milestone4"
+            "branch": "milestone5"
         }]
     }]
 }
