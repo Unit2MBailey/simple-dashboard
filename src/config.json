@@ -27,7 +27,7 @@
             "branch": "mainline"
         }]
     }, {
-        "title": "MS5",
+        "title": "MS6",
         "sources": [{
             "type": "jenkins",
 			"host": "http://build.ws.u2g:9090",
@@ -39,12 +39,6 @@
 			"host": "http://build.ws.u2g:9090",
 			"jobFolder": "Game",
             "job": "Game-Automated-Tests",
-            "branch": "milestone6"
-        }, {
-            "type": "jenkins",
-			"host": "http://build.ws.u2g:9090",
-			"jobFolder": "Game",
-            "job": "Game-NonUnity",
             "branch": "milestone6"
         }, {
             "type": "jenkins",
