@@ -1,4 +1,5 @@
 import _ from "lodash";
+import moment from "moment";
 import request from "superagent-bluebird-promise";
 import Source from "./Source";
 
@@ -10,6 +11,7 @@ export default class Jenkins extends Source {
         this.branch = data.branch;
         this.jobFolder = data.jobFolder;
 		this.jobLink = this.host + "/job/";
+		this.expectedAgeHours = data.expectedAgeHours ? data.expectedAgeHours : 2
 		if (this.jobFolder)
 			this.jobLink += this.jobFolder + "/job/"
 		this.jobLink += this.job;
@@ -39,31 +41,67 @@ export default class Jenkins extends Source {
 		})
 	}
 	
-	getLastBuildInfo() {
-		return fetchData("/lastBuild/api/json")
+	getLastCompletedBuildInfo() {
+		return this.fetchData("/lastCompletedBuild/api/json").then(response => {
+			// console.log(response.text);
+			return (response.ok) ? response.body : undefined;
+		})
 	}
 
     getStatus() {
-        return this.getLastFailedBuildNumber().then(lastFailedBuildNumber => {
-			this.lastFailedBuildNumber = lastFailedBuildNumber;
-		}).then(response => {
-			return this.getLastSuccessfulBuildNumber().then(lastSuccessfulBuildNumber => {
-				this.lastSuccessfulBuildNumber = lastSuccessfulBuildNumber;
-			})
-		}).then(response => {
-            var status = "success";
-            var messages = [];
+		
+		var p1 = this.getLastCompletedBuildInfo()
+		var p2 = this.getLastSuccessfulBuildNumber()
+		var p3 = this.getLastFailedBuildNumber()
+		
+        return Promise.all([p1,p2,p3]).then(promiseValues => {
+			var lastCompletedBuildInfo = promiseValues[0];
+			var lastSuccessfulBuildNumber = promiseValues[1];
+			var lastFailedBuildNumber = promiseValues[2];
 
-			if ((this.lastSuccessfulBuildNumber == 0) || (this.lastFailedBuildNumber > this.lastSuccessfulBuildNumber))
+            var status = "success";
+            var messageStrings = [];
+			var title = this.job.replace("Game-", "")
+			
+			if ((lastSuccessfulBuildNumber == 0) || (lastFailedBuildNumber > lastSuccessfulBuildNumber))
 			{
 				status = "danger";
 			}
+			var timeAgo = "";
+			if (lastCompletedBuildInfo)
+			{
+				title += " (" + lastCompletedBuildInfo.number.toString() + ")"
+			
+				var finishedTime = lastCompletedBuildInfo.timestamp + lastCompletedBuildInfo.duration;			
+				var hoursAgo = (Date.now() - finishedTime) / 3600000;
+				if (hoursAgo > this.expectedAgeHours)
+				{
+					messageStrings.push(moment(finishedTime).fromNow())
+				}
+				
+				// Check for test results in the build display name, and show those too
+				var testResults = lastCompletedBuildInfo.displayName.match( /Tests-\d\/\d/g )
+				if (testResults)
+				{
+					messageStrings.push(testResults[0])
+				}
+				
+				var failedMatch = lastCompletedBuildInfo.description.match(/'([^']*)' FAILED/)
+				if (failedMatch)
+				{
+					messageStrings.push("'" + failedMatch[1] + "' FAILED")
+				}
+			}
+			else
+			{
+				messageStrings.push("Pending");
+			}
 			
             return {
-                title: this.job + " (" + this.branch + ")",
+                title: title,
                 link: this.jobLink,
                 status: status,
-                messages: messages
+                messages: messageStrings ? [{ message:messageStrings.join(" - ")}] : []
             };
         });
     }

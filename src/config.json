@@ -18,13 +18,15 @@
 			"host": "http://build.ws.u2g:9090",
 			"jobFolder": "Game",
             "job": "Game-NonUnity",
-            "branch": "mainline"
+            "branch": "mainline",
+            "expectedAgeHours": "24"
         }, {
             "type": "jenkins",
 			"host": "http://build.ws.u2g:9090",
 			"jobFolder": "Game",
             "job": "Game-Shipping",
-            "branch": "mainline"
+            "branch": "mainline",
+            "expectedAgeHours": "24"
         }]
     }, {
         "title": "MS6",
@@ -33,7 +35,8 @@
 			"host": "http://build.ws.u2g:9090",
 			"jobFolder": "Game",
             "job": "Game-Publish",
-            "branch": "milestone6"
+            "branch": "milestone6",
+            "expectedAgeHours": "24"
         }, {
             "type": "jenkins",
 			"host": "http://build.ws.u2g:9090",
@@ -45,28 +48,8 @@
 			"host": "http://build.ws.u2g:9090",
 			"jobFolder": "Game",
             "job": "Game-Shipping",
-            "branch": "milestone6"
-        }]
-    }, {
-        "title": "Streams",
-        "sources": [{
-            "type": "jenkins",
-			"host": "http://build.ws.u2g:9090",
-			"jobFolder": "Game",
-            "job": "Game-Publish",
-            "branch": "mainline"
-        }, {
-            "type": "jenkins",
-			"host": "http://build.ws.u2g:9090",
-			"jobFolder": "Game",
-            "job": "Game-Publish",
-            "branch": "milestone6"
-        }, {
-            "type": "jenkins",
-			"host": "http://build.ws.u2g:9090",
-			"jobFolder": "Game",
-            "job": "Game-Publish",
-            "branch": "milestone5"
+            "branch": "milestone6",
+            "expectedAgeHours": "24"
         }]
     }]
 }
