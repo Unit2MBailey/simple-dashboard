@@ -35,20 +35,20 @@
 			"host": "http://build.ws.u2g:9090",
 			"jobFolder": "Game",
             "job": "Game-Publish",
-            "branch": "milestone6",
+            "branch": "milestone7",
             "expectedAgeHours": "24"
         }, {
             "type": "jenkins",
 			"host": "http://build.ws.u2g:9090",
 			"jobFolder": "Game",
             "job": "Game-Automated-Tests",
-            "branch": "milestone6"
+            "branch": "milestone7"
         }, {
             "type": "jenkins",
 			"host": "http://build.ws.u2g:9090",
 			"jobFolder": "Game",
             "job": "Game-Shipping",
-            "branch": "milestone6",
+            "branch": "milestone7",
             "expectedAgeHours": "24"
         }]
     }]
