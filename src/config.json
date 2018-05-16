@@ -29,7 +29,7 @@
             "expectedAgeHours": "24"
         }]
     }, {
-        "title": "MS6",
+        "title": "Milestone",
         "sources": [{
             "type": "jenkins",
 			"host": "http://build.ws.u2g:9090",
