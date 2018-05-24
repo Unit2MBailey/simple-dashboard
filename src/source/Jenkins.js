@@ -80,7 +80,7 @@ export default class Jenkins extends Source {
 				}
 				
 				// Check for test results in the build display name, and show those too
-				var testResults = lastCompletedBuildInfo.displayName.match( /Tests-\d\/\d/g )
+				var testResults = lastCompletedBuildInfo.displayName.match( /Tests-\d+\/\d+/g )
 				if (testResults)
 				{
 					messageStrings.push(testResults[0])
